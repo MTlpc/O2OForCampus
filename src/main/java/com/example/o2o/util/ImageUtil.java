@@ -7,6 +7,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -19,16 +20,16 @@ public class ImageUtil {
 
     /**
      *  将店铺照片和商品照片进行水印和存储处理
-     * @param thumbnail Spring自带的文件处理对象，接收用户的传送流
+     * @param thumbnailInputStream Spring自带的文件处理对象，接收用户的传送流
      * @param targetAddr 存储的目标路径
      * @return
      */
-    public static String generateThumbnail(File thumbnail,String targetAddr){
+    public static String generateThumbnail(InputStream thumbnailInputStream,String fileName, String targetAddr){
 
 //          获取随机生成的文件名
         String realFileName = getRandomFileName();
 //          获取扩展名
-        String extension = getFileExtension(thumbnail);
+        String extension = getFileExtension(fileName);
 
 //        创建目标文件的路径
         makeDirPath(targetAddr);
@@ -39,7 +40,7 @@ public class ImageUtil {
 
         try {
 //            将图片添加水印之后存储到完整路径下
-            Thumbnails.of(thumbnail).size(200, 200)
+            Thumbnails.of(thumbnailInputStream).size(200, 200)
                     .watermark(Positions.BOTTOM_RIGHT,ImageIO.read(new File(basePath + "watermark.png")),0.25f)
                     .outputQuality(0.8f).toFile(dest);
         } catch (IOException e) {
@@ -63,12 +64,12 @@ public class ImageUtil {
 
     /**
      * 获取文件流的扩展名
-     * @param thumbnail 文件流
+     * @param fileName 文件名
      * @return
      */
-    private static String getFileExtension(File thumbnail) {
-         String originalFileName = thumbnail.getName();
-         return originalFileName.substring(originalFileName.lastIndexOf("."));
+    private static String getFileExtension(String fileName) {
+//         String originalFileName = thumbnail.getName();
+         return fileName.substring(fileName.lastIndexOf("."));
     }
 
     /**

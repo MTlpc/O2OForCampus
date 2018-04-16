@@ -17,6 +17,7 @@ import sun.misc.IOUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Date;
 
 @Service
@@ -27,7 +28,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public ShopExecution addShop(Shop shop, File shopImg) {
+    public ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) throws ShopOperationException {
 //        如果店铺信息为空，则直接返回店铺为空的信息
         if(shop == null){
             return new ShopExecution(ShopStateEnum.NULL_SHOP);
@@ -44,10 +45,10 @@ public class ShopServiceImpl implements ShopService {
             if(effectedNum <= 0){
                 throw new ShopOperationException("店铺创建失败");
             }else {
-                if (shopImg != null){
+                if (shopImgInputStream != null){
                     //存储图片
                     try{
-                        addShopImg(shop,shopImg);
+                        addShopImg(shop,shopImgInputStream, fileName);
                     }catch (Exception e){
                         throw new ShopOperationException("addShopImg error" + e.getMessage());
                     }
@@ -66,7 +67,7 @@ public class ShopServiceImpl implements ShopService {
         return new ShopExecution(ShopStateEnum.CHECK,shop);
     }
 
-    private void addShopImg(Shop shop, File shopImg) throws Exception{
+    private void addShopImg(Shop shop, InputStream shopImgInputStream, String fileName) throws Exception{
 
 //        MultipartFile multipartFile;
 //
@@ -77,7 +78,7 @@ public class ShopServiceImpl implements ShopService {
         //获取shop图片将要存储的文件夹路径 作为目标路径
         String dest = PathUtil.getShopImagePath(shop.getShopId());
 //        将图片存储后 将保存的位置存储在shop对象中
-        String shopImgAddr = ImageUtil.generateThumbnail(shopImg, dest);
+        String shopImgAddr = ImageUtil.generateThumbnail(shopImgInputStream,fileName, dest);
         shop.setShopImg(shopImgAddr);
     }
 }
