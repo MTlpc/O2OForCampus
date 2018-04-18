@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
 
@@ -22,6 +23,19 @@ public class ShopServiceTest extends BaseTest {
 
     @Autowired
     private ShopService shopService;
+
+    @Test
+	public void testModifyShop() throws FileNotFoundException {
+		Shop shop = new Shop();
+		shop.setShopName("修改后的店名");
+		shop.setShopId(1L);
+		shop.setShopDesc("修改后的详情描述");
+		File shopImg = new File("C:\\Users\\92806\\Desktop\\面试\\头像.jpg");
+		InputStream is = new FileInputStream(shopImg);
+
+		ShopExecution shopExecution = shopService.modifyShop(shop, is, shopImg.getName());
+		System.out.println("新的图片地址为："+shopExecution.getShop().getShopImg());
+	}
 
     @Test
 	public void testAddShop() throws Exception {

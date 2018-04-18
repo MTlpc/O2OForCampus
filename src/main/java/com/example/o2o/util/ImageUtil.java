@@ -91,4 +91,22 @@ public class ImageUtil {
                 ImageIO.read(new File(basePath + "/watermark.png")),0.25f)
                 .outputQuality(0.8f).toFile("D:\\data\\xiaohuangrennew.jpg");
     }
+
+    /**
+     * 判断storePath是文件路径还是目录路径
+     * 如果storePath是文件路径则删除该文件
+     * 如果storePath是目录路径则删除该目录下的所有文件
+     */
+    public static void deleteFileOrPath(String storePath) {
+        File fileOrPath = new File(PathUtil.getImgBasePath() + storePath);
+        if(fileOrPath.exists()) {
+            if(fileOrPath.isDirectory()) {
+                File[] files = fileOrPath.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    files[i].delete();
+                }
+            }
+            fileOrPath.delete();
+        }
+    }
 }
