@@ -9,6 +9,12 @@ import java.io.File;
 import java.io.InputStream;
 
 public interface ShopService {
+    /**
+     * 根据shopCondition分页返回店铺列表
+     */
+    public ShopExecution getShopList(Shop shopCondition,int pageIndex,int pageSize);
+
+
     ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) throws ShopOperationException;
 
     /**
