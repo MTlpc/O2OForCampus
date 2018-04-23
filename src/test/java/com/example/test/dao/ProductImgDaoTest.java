@@ -41,20 +41,20 @@ public class ProductImgDaoTest extends BaseTest {
         assertEquals(2, effectedNum);
     }
 
-//	@Test
-//	public void testBQueryProductImgList() {
-//		// 检查productId为1的商品是否有且仅有两张商品详情图片
-//		List<ProductImg> productImgList = productImgDao.queryProductImgList(1L);
-//		assertEquals(2, productImgList.size());
-//	}
+	@Test
+	public void testBQueryProductImgList() {
+		// 检查productId为1的商品是否有且仅有两张商品详情图片
+		List<ProductImg> productImgList = productImgDao.queryProductImgList(1L);
+		assertEquals(2, productImgList.size());
+	}
 
-//
-//	@Test
-//	public void testCDeleteProductImgByProductId() throws Exception {
-//		// 删除新增的两条商品详情图片记录
-//		long productId = 1;
-//		int effectedNum = productImgDao.deleteProductImgByProductId(productId);
-//		assertEquals(2, effectedNum);
-//	}
+
+	@Test
+	public void testCDeleteProductImgByProductId() throws Exception {
+		// 删除新增的两条商品详情图片记录
+		long productId = 1;
+		int effectedNum = productImgDao.deleteProductImgByProductId(productId);
+		assertEquals(2, effectedNum);
+	}
 
 }
