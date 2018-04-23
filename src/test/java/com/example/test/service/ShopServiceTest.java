@@ -1,5 +1,6 @@
 package com.example.test.service;
 
+import com.example.o2o.dto.ImageHolder;
 import com.example.o2o.dto.ShopExecution;
 import com.example.o2o.entity.Area;
 import com.example.o2o.entity.PersonInfo;
@@ -42,13 +43,13 @@ public class ShopServiceTest extends BaseTest {
     @Test
 	public void testModifyShop() throws FileNotFoundException {
 		Shop shop = new Shop();
-		shop.setShopName("修改后的店名");
+		shop.setShopName("修改后的店名0001");
 		shop.setShopId(1L);
 		shop.setShopDesc("修改后的详情描述");
 		File shopImg = new File("C:\\Users\\92806\\Desktop\\面试\\头像.jpg");
 		InputStream is = new FileInputStream(shopImg);
 
-		ShopExecution shopExecution = shopService.modifyShop(shop, is, shopImg.getName());
+		ShopExecution shopExecution = shopService.modifyShop(shop, new ImageHolder(shopImg.getName(),is));
 		System.out.println("新的图片地址为："+shopExecution.getShop().getShopImg());
 	}
 
@@ -74,7 +75,8 @@ public class ShopServiceTest extends BaseTest {
 		shop.setAdvice("审核中");
 		File shopImg = new File("D:\\data\\xiaohuangren.jpg");
 		InputStream is = new FileInputStream(shopImg);
-        ShopExecution se = shopService.addShop(shop,is, shopImg.getName());
+		ShopExecution se = shopService.addShop(shop,new ImageHolder(shopImg.getName(),is));
+
 		assertEquals(ShopStateEnum.CHECK.getState(),se.getState());
 	}
 }

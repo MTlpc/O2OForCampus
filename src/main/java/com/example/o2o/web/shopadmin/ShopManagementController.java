@@ -1,5 +1,6 @@
 package com.example.o2o.web.shopadmin;
 
+import com.example.o2o.dto.ImageHolder;
 import com.example.o2o.dto.ShopExecution;
 import com.example.o2o.entity.Area;
 import com.example.o2o.entity.PersonInfo;
@@ -221,7 +222,7 @@ private Map<String,Object> getShopMnanagementInfo(HttpServletRequest request){
 //            }
             ShopExecution se = null;
             try {
-                se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+                se = shopService.addShop(shop, new ImageHolder(shopImg.getOriginalFilename(),shopImg.getInputStream()));
                 if(se.getState() == ShopStateEnum.CHECK.getState()){
                     modelMap.put("success", true);
                     //该用户可以操作的店铺列表
@@ -265,6 +266,7 @@ private Map<String,Object> getShopMnanagementInfo(HttpServletRequest request){
         String shopStr = HttpServletRequestUtil.getString(request, "shopStr");
         ObjectMapper mapper = new ObjectMapper();
         Shop shop = null;
+
         try {
             shop = mapper.readValue(shopStr, Shop.class);
         } catch (Exception e) {
@@ -287,9 +289,9 @@ private Map<String,Object> getShopMnanagementInfo(HttpServletRequest request){
             ShopExecution result;
             try {
                 if(shopImg == null) {
-                    result = shopService.modifyShop(shop,null,null);
+                    result = shopService.modifyShop(shop,null);
                 } else {
-                    result = shopService.modifyShop(shop, shopImg.getInputStream(),shopImg.getOriginalFilename());
+                    result = shopService.modifyShop(shop,new ImageHolder(shopImg.getOriginalFilename(),shopImg.getInputStream()));
                 }
                 if(result.getState() == ShopStateEnum.SUCCESS.getState()) {
                     modelMap.put("success", true);

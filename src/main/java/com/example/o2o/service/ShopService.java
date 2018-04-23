@@ -1,5 +1,6 @@
 package com.example.o2o.service;
 
+import com.example.o2o.dto.ImageHolder;
 import com.example.o2o.dto.ShopExecution;
 import com.example.o2o.entity.Shop;
 import com.example.o2o.exceptions.ShopOperationException;
@@ -15,7 +16,7 @@ public interface ShopService {
     public ShopExecution getShopList(Shop shopCondition,int pageIndex,int pageSize);
 
 
-    ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) throws ShopOperationException;
+    ShopExecution addShop(Shop shop,ImageHolder thumbnail) throws ShopOperationException;
 
     /**
      * 通过店铺Id获取店铺信息
@@ -25,6 +26,6 @@ public interface ShopService {
     /**
      * 更新店铺信息，包括图片处理
      */
-    ShopExecution modifyShop(Shop shop, InputStream shopImgInputStream,String fileName) throws ShopOperationException;
+    ShopExecution modifyShop(Shop shop, ImageHolder thumbnail) throws ShopOperationException;
 
 }
