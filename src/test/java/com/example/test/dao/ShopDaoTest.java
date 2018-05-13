@@ -26,9 +26,10 @@ public class ShopDaoTest extends BaseTest{
         ShopCategory parentCategory = new ShopCategory();
         parentCategory.setShopCategoryId(12L);
         childCategory.setParent(parentCategory);
-        List<Shop> shopList = shopDao.queryShopList(shopCondition, 0, 3);
+        shopCondition.setShopCategory(childCategory);
+        List<Shop> shopList = shopDao.queryShopList(shopCondition, 0, 6);
         System.out.println("店铺列表的大小：" + shopList.size());
-        System.out.println("店铺列表的总数：" + shopDao.queryShopCount(shopCondition));
+        System.out.println("店铺总数：" + shopDao.queryShopCount(shopCondition));
     }
 
     @Test
